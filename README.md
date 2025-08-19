@@ -2,6 +2,7 @@
 A Bash script to monitor Elasticsearch indices: ILM phase, size, age, node location, and deletion suggestions.
 ______________________________________________________________________________________________________________
 
+![Demo Screenshot](screenshots/demo1.png)
 # 🛠️ Elasticsearch-index-status-inspector
 
 

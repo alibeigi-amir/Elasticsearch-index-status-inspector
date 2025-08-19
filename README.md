@@ -1,8 +1,7 @@
 # Elasticsearch-index-status-inspector
 A Bash script to monitor Elasticsearch indices: ILM phase, size, age, node location, and deletion suggestions.
 ______________________________________________________________________________________________________________
-
-<div align="center" style="background:linear-gradient(-45deg,#005571,#00bfb3,#fab040,#ff6b6b);background-size:400% 400%;animation:gradientShift 12s ease infinite;padding:40px 20px;border-radius:12px;color:#fff;">
+<div align="center" style="background:linear-gradient(-45deg,#005571,#0bceaf,#fab040,#ff6b6b);background-size:400% 400%;animation:gradientShift 12s ease infinite;padding:40px 20px;border-radius:12px;color:#fff;">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/elasticsearch/elasticsearch-original.svg" width="84" height="84" alt="Elasticsearch" style="filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));"/>
   <h1 style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:2.4em;margin:.2em 0 .3em;letter-spacing:.5px;">
     Elasticsearch Index Status Inspector
@@ -22,52 +21,54 @@ ________________________________________________________________________________
 
 ---
 
-<div align="center" style="margin: 30px 0; font-family: 'Courier New', 'monospace';">
-  <div style="background-color: #0D1117; color: #C9D1D9; font-size: 14px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-width: 900px; overflow: hidden; margin: 0 auto; border: 1px solid #30363D;">
-    
+<div align="center" style="margin: 30px 0; font-family: 'Courier New', monospace; direction: ltr;">
+  <!-- Terminal Window -->
+  <div style="background-color: #0D1117; color: #C9D1D9; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-width: 900px; overflow: hidden; margin: 0 auto; border: 1px solid #30363D;">
+
     <!-- Terminal Header -->
     <div style="background-color: #23272E; padding: 8px 12px; font-size: 12px; color: #B0B9C5; display: flex; align-items: center; gap: 8px;">
-      <div style="width: 10px; height: 10px; background: #FF5F57; border-radius: 50%; display: inline-block;"></div>
-      <div style="width: 10px; height: 10px; background: #FFBD2E; border-radius: 50%; display: inline-block;"></div>
-      <div style="width: 10px; height: 10px; background: #28CA42; border-radius: 50%; display: inline-block;"></div>
+      <div style="width: 10px; height: 10px; background: #FF5F57; border-radius: 50%;"></div>
+      <div style="width: 10px; height: 10px; background: #FFBD2E; border-radius: 50%;"></div>
+      <div style="width: 10px; height: 10px; background: #28CA42; border-radius: 50%;"></div>
       <span style="margin-left: 10px;">es-ilm-inspector.sh</span>
     </div>
 
-    <!-- Terminal Body -->
-    <div style="padding: 16px; line-height: 1.8; text-align: left; white-space: pre; font-family: 'Fira Code', 'Courier New', monospace; letter-spacing: 0;">
-<span style="color: #79C0FF;">🔍 Elasticsearch Index Status Inspector</span>
+    <!-- Terminal Body with pre -->
+    <pre style="margin: 0; padding: 16px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; line-height: 1.7; white-space: pre; color: #C9D1D9; background-color: #0D1117;">
+🔍 Elasticsearch Index Status Inspector
 Connected to: https://192.168.152.14:9200 (user: elastic)
 Filter: filebeat-* | Threshold: 30 GB
 ------------------------------------------------------------------------
 
 | Index                     | Phase | Age   | Size     | Note             | Hot Node       |
 |---------------------------|-------|-------|----------|------------------|----------------|
-| <span style="color: #F85149;">filebeat-2024.05.01</span>       | <span style="color: #F85149;">hot</span>   | 1d    | <span style="color: #F85149;">48.23 GB</span> | <span style="color: #F85149;">you can delete</span> | data-node-01   |
-| <span style="color: #F85149;">filebeat-2024.05.02</span>       | <span style="color: #F85149;">hot</span>   | 2d    | <span style="color: #F85149;">45.10 GB</span> | <span style="color: #F85149;">you can delete</span> | data-node-02   |
-| filebeat-2024.05.03       | <span style="color: #FD9800;">warm</span>  | 7d    | 38.45 GB |                  | data-node-03   |
-| filebeat-2024.05.04       | <span style="color: #FD9800;">warm</span>  | 10d   | 32.00 GB |                  | data-node-01   |
-| filebeat-2024.05.05       | <span style="color: #58A6FF;">cold</span>  | 25d   | 24.70 GB |                  | cold-node-01   |
+| filebeat-2024.05.01       | hot   | 1d    | 48.23 GB | you can delete   | data-node-01   |
+| filebeat-2024.05.02       | hot   | 2d    | 45.10 GB | you can delete   | data-node-02   |
+| filebeat-2024.05.03       | warm  | 7d    | 38.45 GB |                  | data-node-03   |
+| filebeat-2024.05.04       | warm  | 10d   | 32.00 GB |                  | data-node-01   |
+| filebeat-2024.05.05       | cold  | 25d   | 24.70 GB |                  | cold-node-01   |
 
-> <span style="color: #79C0FF;">TOTAL:</span> 188.48 GB
+> TOTAL: 188.48 GB
 
-💡 <span style="color: #79C0FF;">Delete command for top 3 large indices:</span>
+💡 Delete command for top 3 large indices:
 curl -k -X DELETE "https://192.168.152.14:9200/filebeat-2024.05.01,filebeat-2024.05.02,filebeat-2024.05.03" -u elastic
 
 ------------------------------------------------------------------------
 🖥️ Cluster Nodes Status
 ------------------------------------------------------------------------
-ip            name         heap.percent ram.percent cpu load_1m load_5m load_15m role   master disk.used_percent uptime
-192.168.152.11 node-1       65           70          8   1.2     1.0     0.9      di     *      68%             15d
-192.168.152.12 node-2       58           67          6   0.9     1.1     1.0      di     -      72%             14d
-192.168.152.13 node-3       45           50          4   0.7     0.8     0.7      di     -      55%             13d
-    </div>
+ip               name         heap.percent ram.percent cpu load_1m load_5m load_15m role master disk.used_percent uptime
+192.168.152.11   node-1       65           70          8   1.2     1.0     0.9      di   *      68%             15d
+192.168.152.12   node-2       58           67          6   0.9     1.1     1.0      di   -      72%             14d
+192.168.152.13   node-3       45           50          4   0.7     0.8     0.7      di   -      55%             13d
+</pre>
   </div>
 
   <p style="color: #666; font-size: 0.9em; margin-top: 16px;">
     Simulated output — real result in your terminal with colors & interactivity
   </p>
 </div>
-###################################################################################
+
+
 
 
 # 🛠️ Elasticsearch-index-status-inspector
